@@ -1,5 +1,11 @@
 import React from "react";
-import { ChevronRight, Truck, Calendar, Shield, Check } from "lucide-react";
+import {
+  ChevronRight,
+  Truck,
+  Calendar,
+  Check,
+  TriangleAlert,
+} from "lucide-react";
 import type { Skip } from "../types/skip";
 
 interface SkipCardProps {
@@ -30,26 +36,6 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
 
       {/* Content */}
       <div className="relative z-10">
-        {/* Top badges */}
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex gap-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white bg-opacity-20 text-white backdrop-blur-sm">
-              {skip.hire_period_days} Days
-            </span>
-            {skip.size >= 12 && (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-yellow-500 to-orange-500 text-white">
-                Popular
-              </span>
-            )}
-          </div>
-          {skip.allowed_on_road && (
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-green-500 bg-opacity-20">
-              <Shield className="w-4 h-4 text-green-400" />
-              <span className="text-xs text-green-400">Road OK</span>
-            </div>
-          )}
-        </div>
-
         {/* Skip Visual */}
         <div className="relative h-48 mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 shadow-inner">
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-40" />
@@ -63,12 +49,16 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
             <span className="text-6xl font-black bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
               {skip.size}
             </span>
-            <span className="text-xl ml-2 text-gray-300">Yard</span>
+            <span className="text-xl ml-2 text-gray-300">
+              Yard{skip.size > 1 ? "s" : ""}
+            </span>
           </div>
           {!skip.allowed_on_road && (
             <div className="absolute top-4 right-4 bg-orange-500 bg-opacity-80 px-2 py-1 rounded-full">
               <span className="text-xs text-white font-medium">
-                Off Road Only
+                {/* add not allowed icon */}
+                <TriangleAlert className="inline w-4 h-4 mr-1" />
+                Not Allowed On The Road
               </span>
             </div>
           )}
@@ -78,23 +68,12 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
         <h3 className="text-2xl font-bold text-white mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
           {skip.size} Yard Skip
         </h3>
-        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-          {skip.size <= 6
-            ? "Ideal for household clear-outs and small DIY projects"
-            : skip.size <= 12
-            ? "Perfect for home renovations and garden landscaping"
-            : "Built for major construction and commercial projects"}
-        </p>
 
         {/* Features Grid */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="flex items-center text-gray-300 text-xs bg-white bg-opacity-5 rounded-lg p-2">
             <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-            <span>{skip.hire_period_days} days</span>
-          </div>
-          <div className="flex items-center text-gray-300 text-xs bg-white bg-opacity-5 rounded-lg p-2">
-            <Truck className="w-4 h-4 mr-2 text-gray-400" />
-            <span>Free delivery</span>
+            <span>{skip.hire_period_days} day hire period</span>
           </div>
         </div>
 
@@ -112,7 +91,7 @@ const SkipCard: React.FC<SkipCardProps> = ({ skip, isSelected, onSelect }) => {
             </div>
           </div>
           <button className="group px-6 py-3 bg-gradient-to-r from-white to-gray-200 text-black rounded-full font-bold flex items-center gap-2 hover:from-gray-200 hover:to-white transition-all duration-300 shadow-lg hover:shadow-xl">
-            <span>Select</span>
+            <span>{isSelected ? "Selected" : "Select This Skip"}</span>
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
