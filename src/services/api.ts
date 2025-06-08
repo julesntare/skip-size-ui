@@ -1,6 +1,6 @@
 import type { Skip } from "../types/skip";
 
-const API_BASE_URL = "https://app.wewantwaste.co.uk/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://app.wewantwaste.co.uk/api";
 
 export const fetchSkipsByLocation = async (
   postcode: string,
